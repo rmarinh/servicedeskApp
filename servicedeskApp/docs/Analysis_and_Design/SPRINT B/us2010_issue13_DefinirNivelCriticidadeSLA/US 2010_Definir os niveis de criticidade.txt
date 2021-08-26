@@ -1,0 +1,17 @@
+title US 2010_Definir os niveis de criticidade
+
+
+actor GSH
+GSH->AddNiveisCriticidadeUI: defineNiveisCriticidade(organizacao)
+AddNiveisCriticidadeUI->AddNiveisCriticidadeController: create
+AddNiveisCriticidadeController->PersistenceContext: respositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->NiveisCriticidadeRepository: create
+PersistenceContext-->AddNiveisCriticidadeController:NiveisCriticidadeRepository
+AddNiveisCriticidadeUI-->GSH: pedidoInformacao
+GSH->AddNiveisCriticidadeUI: etiqueta, valorInteiro, cor, tempoMaximo, tempoMedio
+AddNiveisCriticidadeUI-> AddNiveisCriticidadeController:defineNiveisCriticidade(etiqueta, valorInteiro, cor, tempoMaximo, tempoMedio)
+AddNiveisCriticidadeController->NiveisCriticidade: newNiveisCriticidade=defineNiveisCriticidade(etiqueta, valorInteiro, cor, tempoMaximo, tempoMedio)
+AddNiveisCriticidadeController->NiveisCriticidade: save(newNiveisCriticidade)
+AddNiveisCriticidadeController-->AddNiveisCriticidadeUI:show
+AddNiveisCriticidadeUI-->GSH: display Niveis de criticidade criado

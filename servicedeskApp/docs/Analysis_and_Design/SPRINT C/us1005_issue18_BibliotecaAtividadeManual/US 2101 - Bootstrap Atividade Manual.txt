@@ -1,0 +1,21 @@
+title SD - inicializado (bootstrap) de atividade manual
+
+participant ":BootStrapapp" as u
+participant ":AtividadesManuaisBootstrapper" as cont
+participant ":PersistenceContext" as pc
+participant ":RepositoryFactory" as fact
+participant ":AtividadeRepository" as repo
+participant "atividade:AtividadeManual" as a
+
+loop [for all AtividadeManual]
+u->u:registerAtividade(dados relativos a atividade)
+u-->*cont:create
+cont->+pc:repositories()
+pc-->fact: create
+pc-->-cont:
+cont->fact: Atividade()
+fact-->*repo:create()
+u->cont:register(data)
+cont-->*a:create
+cont->repo:save(atividade)
+end

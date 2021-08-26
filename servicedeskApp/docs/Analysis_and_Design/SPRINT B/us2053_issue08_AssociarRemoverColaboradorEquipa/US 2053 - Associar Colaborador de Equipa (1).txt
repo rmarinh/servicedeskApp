@@ -1,0 +1,19 @@
+title US 2053 - Associar Colaborador de Equipa
+
+actor RRH
+RRH->AddColaboradorEquipaUI: addColaboradorEquipa(Colaborador)
+AddColaboradorEquipaUI->AddColaboradorEquipaController: create
+AddColaboradorEquipaController->ListEquipasService: allEquipas()
+AddColaboradorEquipaController-->AddColaboradorEquipaUI:
+AddColaboradorEquipaUI->RRH: show()
+RRH->AddColaboradorEquipaUI: selectEquipa()
+AddColaboradorEquipaUI->AddColaboradorEquipaController: addColaboradorEquipa(Colaborador, Equipa)
+AddColaboradorEquipaController->PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->EquipaRepository: create
+AddColaboradorEquipaController->EquipaRepository: addColaboradorEquipa(Colaborador, Equipa)
+EquipaRepository->Equipa: find(Equipa)
+EquipaRepository->Equipa: addColaborador(Colaborador)
+EquipaRepository-->AddColaboradorEquipaController: 
+AddColaboradorEquipaController-->AddColaboradorEquipaUI: 
+AddColaboradorEquipaUI-->RRH:

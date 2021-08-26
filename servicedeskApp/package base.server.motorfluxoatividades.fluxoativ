@@ -1,0 +1,28 @@
+package base.server.motorfluxoatividades.fluxoatividades.automaticas;
+
+import eapli.base.pedidomanagement.domain.Pedido;
+
+import java.util.Comparator;
+
+public class SortPedidoByNivelCriticidade implements Comparator<Pedido> {
+
+    private final static Long FATOR_NIVEL_CRITICIDADE = 2L;
+    private final static Long FATO_TEMPO_RESTANTE = 3L;
+    
+    @Override
+    public int compare(Pedido p1, Pedido p2) {
+        
+        Long fatorPedido1 = calcularFatorPedido(p1);
+        Long fatorPedido2 = calcularFatorPedido(p2);
+        
+        return fatorPedido1.compareTo(fatorPedido2);
+    }
+    
+    public Long calcularFatorPedido(Pedido p){
+        
+        Long fatorNivelCriticidade = Long.parseLong(p.servico().nivelCrtiticidade().escalaNumerica().toString()) * FATOR_NIVEL_CRITICIDADE;
+        Long fatorTempoRestante = Long.parseLong(p.tempoDecorrido().toString()) *FATO_TEMPO_RESTANTE;
+        
+        return fatorNivelCriticidade + fatorTempoRestante;
+    }
+}

@@ -1,0 +1,19 @@
+title US 2053 - Remover Colaborador de Equipa
+
+actor RRH
+RRH->AddColaboradorEquipaUI: removerColaboradorEquipa()
+AddColaboradorEquipaUI->AddColaboradorEquipaController: create
+AddColaboradorEquipaController->ListEquipasService: allEquipas()
+AddColaboradorEquipaController-->AddColaboradorEquipaUI:
+AddColaboradorEquipaUI->RRH: show()
+RRH->AddColaboradorEquipaUI: selectColaborador()
+AddColaboradorEquipaUI->AddColaboradorEquipaController: removeColaboradorEquipa(Colaborador, Equipa)
+AddColaboradorEquipaController->PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->EquipaRepository: create
+AddColaboradorEquipaController->EquipaRepository: removeColaboradorEquipa(Colaborador, Equipa)
+EquipaRepository->Equipa: find(Equipa)
+EquipaRepository->Equipa: removeColaborador(Colaborador)
+EquipaRepository-->AddColaboradorEquipaController: 
+AddColaboradorEquipaController-->AddColaboradorEquipaUI: 
+AddColaboradorEquipaUI-->RRH:

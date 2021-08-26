@@ -1,0 +1,14 @@
+title ListEquipasService
+
+ListEquipasUI->ListEquipasUI: doShow()
+ListEquipasUI->ListEquipasController: listEquipas()
+ListEquipasController->PersistenceContext: repositories()
+PersistenceContext->AppSettings: instance()
+PersistenceContext->AppSettings: getRepositoryFactory()
+AppSettings->RepositoryFactory: create
+RepositoryFactory-->AppSettings:
+AppSettings-->ListEquipasController:
+ListEquipasController->RepositoryFactory:equipas()
+RepositoryFactory->EquipaRepository: create()
+ListEquipasController->EquipaRepository: list=all()
+ListEquipasController-->ListEquipasUI: list

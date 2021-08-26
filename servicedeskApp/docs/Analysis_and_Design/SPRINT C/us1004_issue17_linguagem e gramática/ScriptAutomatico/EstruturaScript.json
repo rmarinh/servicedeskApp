@@ -1,0 +1,379 @@
+Enviar Fatura cliente 
+	Consultar Ficheiro 
+		nome: ficheiroFaturas.xml
+		porcurar: Valor total 
+
+
+
+
+Definiicao do script Automatico  
+
+
+Da interpretaçao feita de vários exemplos dados pelo cliente foram levantadas as seguintes capacidades a ter na definição do script:
+		-Operaçoes aritmeticas entre dois valores; 
+		-Operações condicionais 
+		-Consulta de ficheiro
+		-EnvioEmail
+Tendo por base os pontos acima, o tipo de  estrutura usado na definição da linguagem ficaria a nosso critério?
+
+
+
+A estruturação da linguagem e o modo inserção da mesma 		
+
+
+Da interpretaçao feita de vários exemplos dados pelo cliente foram levantadas as seguintes operaçoes a serem suportadas na linguagemDefinida:
+	Operacoes:
+		-Aritmeticas: (Valor A, VAlor B, opAritmetica): valorSaida
+		-Condicional: Se(Operacao) Se Nao (Operacao);
+		-Comparacao: (VAlor A, VALOR B, opComparacao);
+		-Consulta: (ficheiro, termoPerocura) termosEncontrados/termo
+		-Substituicao: (ficheiro, termoPerocura, termoASubtituir)
+		-CriarEmail: (remetente, assunto, corpo): email
+		-EnviarEmail: (email)
+
+		ADICIONAL
+		-Execute: (bash ou bat file)
+
+Definindo a seguinte estrutura, em que a execuçao de cada operaçao/comando é sequencial de acordo com a ordem no array
+Ou no caso de Operações Condicionais é executado um ou outor bloco de acordo com o valor Booleano:	
+
+Estrutura Sequencial: 
+
+	{
+	  "ScriptAutomatico": {
+	  	"nome":"Enviar preço de fatutra",
+	    "Operacoes": [
+	      {
+	      	"OpercacaoExecutarScript": {
+	          "nomeFicheiro": "bash.sh"
+	        },
+	        "OpercacaoExecutarScript": {
+	          "nomeFicheiro": "windows.bat"
+	        },
+	          "OpercacaoConsulta": {
+	          "nomeFicheiro": "OrçamentoClientes.txt",
+	          "termosProcura": "valorTotal",
+	          "nomeVariavelSaida": "valorTotal"
+	        },
+	         "OpercacaoConsulta": {
+	          "nomeFicheiro": "DescontoCliente.txt",
+	          "Identificacao": "Cliente1234",
+	          "termoProcura": "descontoCliente",
+	          "nomeVariavelSaida": "descontoCliente" 
+	        },
+	         "OperacaoCalculos": {
+	          "valorA": "{{valorTotal}}",
+	          "valorB": "{{descontoCliente}}",
+	          "Operacao": "Multiplicacao",
+	          "nomeVariavelSaida": "valorCalculado"
+	        },
+	         "OperacaoCriarEmail": {
+	          "idemail": "email1",
+	          "remetente": "rui@rui.com",
+	          "assunto": "Envio Fatura",
+	          "corpo": "CAro Clieinte Envio a fatura xyz com o valor total de  {{idvat}}"
+	        },
+	         "OperecaoSubstituir": {
+	         "nomeFicheiro": "email.txt",
+	          "termoASubtituir": "{{idvat}}",
+	          "termoDeSubstituicao": "{{valorCalculado}}"
+	        },
+	        "OperacaoEnviarEmail": {
+
+	          "idEmail": "{{email1}}"
+	        }
+
+
+	      }
+	    ]
+	  }
+	}
+Estrutura Condicional:
+	{
+	  "ScriptAutomatico": {
+	  	"nome":"Enviar preço de fatutra",
+	  	"se": {
+	  		"OperacaoComparacao":{
+	  			"valorA": "1",
+	  			"valorB": "2"
+	  			"comparacao" "MAIOR"
+	  		}
+	  			
+
+			 "Operacoes": [
+				         "OperacaoCriarEmail": {
+				          "idemail": "email1",
+				          "remetente": "rui@rui.com",
+				          "assunto": "Envio Do seu desconto",
+				          "corpo": "CAro Cliente o seu desconto é de5"
+				        },
+				        "OperacaoEnviarEmail": {
+
+				          "idEmail": "{{email1}}"
+				        }
+
+
+				      }
+				    ]
+	  		}
+	  		}
+	  	},
+
+	  	"Senao": {
+ "Operacoes": [
+	      {
+	         "OperacaoConsulta": {
+	          "nomeFicheiro": "DescontoCliente.txt",
+	          "Identificacao": "Cliente1234",
+	          "termoProcura": "descontoCliente",
+	          "nomeVariavelSaida": "descontoCliente" 
+	        },
+
+	         "OperacaoCriarEmail": {
+	          "idemail": "email1",
+	          "remetente": "rui@rui.com",
+	          "assunto": "Envio Do seu desconto",
+	          "corpo": "CAro Cliente o seu desconto é de {{desconto}}"
+	        },
+	        "OperacaoEnviarEmail": {
+
+	          "idEmail": "{{email1}}"
+	        }
+
+
+	      }
+	    ]
+	  	}
+	   
+	  }
+	}
+
+
+
+
+
+
+Tipo de estruturas
+	xml 
+
+
+
+
+{
+  "ScriptAutomatico": {
+  	"nome":"Mudar NIB cliente",
+    "Operacoes": [
+      {
+        "OpercacaoConsultaficheiros": {
+          "nomeFicheiro": "",
+          "Identificacao": "Cliente1234",
+          "termoProcura": "valorTotal",
+          "nomeVariavelSaida": "valorTotal"
+        },
+        "OpercacaoConsultaficheiros": {
+          "nomeFicheiro": "DescontoCliente.txt",
+          "Identificacao": "Cliente1234",
+          "termoProcura": "descontoCliente",
+          "nomeVariavelSaida": "descontoCliente"
+        },
+        "OperacaoCalculos": {
+          "valorA": "{{valorTotal}}",
+          "valorB": "{{descontoCliente}}",
+          "Operacao": "Multiplicacao",
+          "nomeVariavelSaida": "valorCalculado"
+        },
+        "OperacaoEnvioEmail": {
+          "remetente": "rui@rui.com",
+          "assunto": "Envio Fatura",
+          "corpo": "egeuyghekbdkhgbdmnbdkhbd {{idvat}} dkjhdkjhdkjhd djkhdjkd"
+        },
+        "OperecaoSubstituicaoTermosEmail": {
+          "termoASubtituir": "{{idvat}}",
+          "termoDeSubstituicao": "{{valorCalculado}}"
+        }
+      }
+    ]
+  }
+}
+
+
+
+Referencias:
+1: 
+================================
+https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=8969#p11704
+A informação obtida por consulta a ficheiros locais não é para ser apresentada diretamente ao utilizador (muito menos por consola).
+Essa informação tem o intuito de ser usada no âmbito da tarefa automática apenas (e.g.: na realização de cálculos). E a única forma de a mesma ser posteriormente disponibilizada a alguém é por envio dessa informação por email. Contudo, para tal ocorrer, o script da própria tarefa automática terá que contemplar o envio desse email. Note-se que isto pode não se verificar.
+
+Exemplo:
+No pedido de um serviço consta (i) um identificador de um produto, (ii) a quantidade pretendida e (iii) o método de pagamento. O script da tarefa automática pode consistir em:
+1. Usando o identificador do produto obter o seu preço unitário de venda através de uma consulta a um ficheiro XML local;
+2. Calcular o valor total (sem descontos) que corresponde à quantidade pretendida vezes o preço de venda obtido;
+3. Consoante o método de pagamento indicado aplicar alguns um desconto:
+3.1. Se "pronto pagamento" aplica 5% desconto.
+3.2. Se "pagamento a 30 dias" aplica 2% desconto.
+3.3. Caso contrário, não aplica nenhum desconto.
+4. Enviar um email a quem solicitou o serviço onde, no meio de um texto pré-definido, consta o valor total após descontos que foi calculado anteriormente.
+ 
+Como se depreende do exemplo, a informação lida do ficheiro apenas constará do email caso o GSH assim o explicite no script da respetiva tarefa automática.
+===============================
+
+2:
+==============================
+
+	 A consulta/obtenção de informação constante num determinado ficheiro local partindo de dados existentes no contexto do pedido em causa. Por exemplo,
+
+		 com base no número de cliente indicado no pedido consultar um ficheiro XML com informação sobre clientes para obter o escalão de rapel que lhe está associado.
+
+		 Outro exemplo, com base no identificador de um produto consultar um outro ficheiro para obter o preço base de comercialização desse produto;
+
+		• A realização de cálculos matemáticos baseados em informação disponível tanto no contexto do pedido como em informação obtida durante a realização
+		do script (cf. ponto anterior).
+
+		 Por exemplo, com base numa quantidade indicada no pedido e no preço base do produto obtido através de uma consulta,
+		calcula-se um valor total (i.e., quantidade * preço) e a partir daí aplica-5 se um
+		 desconto de rapel (e.g., se valor total for menor que X não há direito a
+		desconto, entre X e Y aplica-se 2% desconto e superior a Y aplica-se 5% de desconto);
+
+		• O envio de emails cujo remetente(s), assunto e corpo da mensagem estão estaticamente definidos no script. 
+		
+		Contudo, estes podem conter algumas
+		expressões que precisam de ser previamente computadas e substituídas pelo seu resultado de forma a que o email seja corretamente enviado. Por
+		exemplo, no corpo do email pode constar o texto “Valor Total: {{$vt}}€”, onde “{{$vt}}” representa uma expressão que precisa de ser computada e
+		substituída pelo seu resultado (e.g., “350.00”) de modo a que no corpo do email enviado conste “Valor Total: 350.00€”; 
+
+		• A integração e combinação das funcionalidades descritas nos pontos anteriores num único script 
+
+==============================
+
+
+
+Q&A:
+
+1
+==========
+Fotografia de Guilherme Daniel 1181743
+Script de validação de formulário vs Especificação do formulário
+por Guilherme Daniel 1181743 - Tuesday, 8 de June de 2021 às 16:44
+Número de respostas: 1
+Boa tarde professor,
+
+No sprint C, aquando da especificação de um serviço, era também solicitada a especificação de um formulário, respetivos atributos e um script de validação de formulário. 
+
+A abordagem que o meu grupo teve em relação à especificação do formulário era que no ato de especificação do serviço, todas as dependências entre campos, limites de caracteres, etc, eram todos definidos durante a criação do formulário. Tendo em conta esta especificação, um script de validação formulário tornava-se irrelevante, sendo que era impossível o utilizador errar na criação de um formulário. 
+
+A interpretação feita pelo nosso grupo está errada? Será o script de validação de um formulário sempre obrigatório, mesmo que todas as características do formulário sejam especificadas no ato de criação de um serviço? Obrigado.
+
+ 
+
+Cumprimentos, 
+
+Guilherme Daniel
+
+Fotografia de Paulo Maio pam
+Em resposta a 'Guilherme Daniel 1181743'
+Re: Script de validação de formulário vs Especificação do formulário
+por Paulo Maio pam - Wednesday, 9 de June de 2021 às 12:00
+É meu entendimento que o script de validação é necessário e, portanto, obrigatório ser suportado pelo sistema.
+
+Uma forma fácil de perceberes se a solução encontrada pela tua equipa é suficiente consiste em tentares especificar todas as validações sugeridas nos formulários dos serviços dados como exemplo (cf. aqui).
+Ir para...
+
+==============
+
+Tarefas Automáticas
+por Lucas Sousa 1171589 - Tuesday, 8 de June de 2021 às 14:56
+Número de respostas: 1
+Boa tarde professor,
+
+Em relação as tarefas automaticas o sistema tem de estar preparado para mais do que um tipo ou só o exemplo que está no enunciado. Em relação aos pontos da página 4 e 5 é necessário que o sistema também esteja preparado para executar um ponto indivídualmente ou devem estar todos interligados.
+
+Muito Obrigado, Lucas Sousa
+
+Fotografia de Paulo Maio pam
+Em resposta a 'Lucas Sousa 1171589'
+Re: Tarefas Automáticas
+por Paulo Maio pam - Wednesday, 9 de June de 2021 às 11:19
+1. Todas as tarefas automáticas são baseadas na linguagem de scripting a desenvolver pela equipa e cujos objetivos estão bem definidos.
+2. O mais normal é um dado script combinar as funcionalidade suportadas (obter informação de ficheiros, efetuar cálculos e enviar emails), contudo tal não é obrigatório. Pode dar-se o caso do script enviar apenas um email.
+
+Por favor, consulta os exemplos sugeridos em https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=9091#p11836.
+ 
+Ir para...
+
+Ficheiros XML de consulta - Tarefas automáticas
+por Rafael Martins 1180887 - Tuesday, 8 de June de 2021 às 15:26
+Número de respostas: 1
+Boa tarde,
+
+Surgiram-nos algumas questões em relação às linguagens/gramáticas a desenvolver, e em especial a consulta dos ficheiros XML para obter informação.
+
+1.
+
+Quando um Gestor de Serviços especifica um serviço, e as suas atividades, sempre que o Gestor introduz um script no sistema (nas atividades manuais o script para validar o formulário, nas automáticas o script de execução automática), o sistema procede à validação deste.
+
+No caso dos scripts de tarefas automáticas, por exemplo, o conteúdo do script é validado sintaticamente, mas são necessárias também algumas validações semânticas, por exemplo para verificar que, quando se referencia um atributo do formulário de solicitação do serviço, esse atributo realmente existe. Assumimos então que é também, de forma semelhante, verificar se um campo do ficheiro XML que é referenciado existe realmente no ficheiro XML.  Só depois destas verificações poderá o script ser guardado em persistência, para mais tarde ser interpretado e executadas as tarefas automáticas (pelo aplicação Executor Automático de Tarefas).
+
+Ou seja, irá haver dois momentos em que é necessário consultar o ficheiro XML: Quando um Gestor especifica um serviço com tarefa automática de realização, na aplicação de gestão; e quando um pedido desse serviço entra na fase de realização, e o Executor Automático interpreta o script.
+
+Ora, no enunciado refere o seguinte "A consulta/obtenção de informação constante num determinado ficheiro local partindo de dados existentes no contexto do pedido em causa.". De facto, não parecem existir indícios de que estes ficheiros teriam de ser guardados em persistência, por isso ficamos num impasse, pois não é possível o Gestor, no seu dispositivo, indicar um ficheiro local, e depois o Executor Automático também ter acesso a esse ficheiro.
+
+A única solução que conseguimos pensar foi que, como tanto a aplicação de gestão de serviços como o executor de tarefas são aplicações "backoffice" (ao contrário do portal), os ficheiros XML poderiam vir incluídos localmente em ambas as aplicações. O grande problema, claro, seria que caso uma modificação seja feita num desses ficheiros, a modificação não é refletida em mais lugar nenhum. Para tal já seria necessário remodelar o sistema de forma a colocar estes ficheiros também em persistência na base de dados global.
+
+ 
+
+2.
+
+Uma pesquisa a um ficheiro XML implica conhecer, pelo menos em geral, a sua estrutura de campos. Nos exemplos fornecidos aqui no fórum (na questão https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=8846), ambos têm como elemento principal <products>, que dentro contém uma enumeração (uma "lista") de vários <product>. Nestes casos, torna-se mais fácil pesquisar por um produto neste ficheiro, pois sabe-se em que lista procurar etc. No entanto, poderia haver ficheiros XML bem mais complexos, com secções dentro de secções e listas dentro de listas, etc.
+
+As nossas linguagens/gramáticas têm de suportar que o Gestor navegue nestas estruturas mais complexas? Ou pode-se assumir que os ficheiros XML serão mais especializados cada um no seu conceito (i.e um XML só para a lista de produtos, outro XML para outra lista que se queira), e as nossas linguagens então apenas têm de suportar essas pesquisas mais diretas?
+
+ 
+
+Muito obrigado,
+
+Rafael Martins - 1180887
+
+ 
+
+Fotografia de Paulo Maio pam
+Em resposta a 'Rafael Martins 1180887'
+Re: Ficheiros XML de consulta - Tarefas automáticas
+por Paulo Maio pam - Wednesday, 9 de June de 2021 às 11:54
+1. Para a informação relacionada com os formulários a validação que sugeres faz todo o sentido, isto é, não é suposto o script mencionar campos que não existem nos formulários. Contudo, relativamente a questões relacionadas com ficheiros XML esse grau de validação não é requerido por vários motivos, alguns dos quais já apresentados por ti (e.g. os ficheiros não existem localmente). Portanto, aquando da execução do script haverá o risco de algo falhar. De momento, cabe os GSH prever no script eventuais falhas.
+ 
+2. Devem ter em atenção que o GSH não é um Eng. Informático e, portanto, é natural que precise de uma linguagem de script simples. Para além disso, como sugeres, os ficheiros que tipicamente serão usados terão uma estrutura simples/especializada em, por exemplo, produtos, clientes, etc...
+2.1. Contudo, não deve ser assumida uma estrutura fixa desses ficheiros. Os nomes dos nós e respetiva hierarquia pode variar.
+2.2. Sugiro que comecem por suportar pesquisas simples e vão gradualmente (iterativamente) aumentando a complexidade.
+2.3. A título de exemplo, para este ficheiro, a especificação de uma XPath semelhante a esta: /products/product[id="XYJ789"] permitirá facilmente obter o elemento <product> cujo <id> tem o valor "XYJ789". Podem obter mais informação sobre XPath aqui.
+2.4. Podem/devem pensar em maneiras fáceis de um utilizador dar-vos a informação necessária a construirem uma XPath. Notem que não faz sentido suportarem todas as possibilidades advindas do XPath. É suficiente conseguirem encontrar 1 elemento com base num identificador (e.g. código do produto) que pode estar especificado como atributo ou como sub-elemento do elemento a obter. 
+ 
+Ir para...
+Ir para...
+
+
+
+===============
+Tarefas Automáticas
+por Lucas Sousa 1171589 - Tuesday, 8 de June de 2021 às 14:56
+Número de respostas: 1
+Boa tarde professor,
+
+Em relação as tarefas automaticas o sistema tem de estar preparado para mais do que um tipo ou só o exemplo que está no enunciado. Em relação aos pontos da página 4 e 5 é necessário que o sistema também esteja preparado para executar um ponto indivídualmente ou devem estar todos interligados.
+
+Muito Obrigado, Lucas Sousa
+
+Fotografia de Paulo Maio pam
+Em resposta a 'Lucas Sousa 1171589'
+Re: Tarefas Automáticas
+por Paulo Maio pam - Wednesday, 9 de June de 2021 às 11:19
+1. Todas as tarefas automáticas são baseadas na linguagem de scripting a desenvolver pela equipa e cujos objetivos estão bem definidos.
+2. O mais normal é um dado script combinar as funcionalidade suportadas (obter informação de ficheiros, efetuar cálculos e enviar emails), contudo tal não é obrigatório. Pode dar-se o caso do script enviar apenas um email.
+
+Por favor, consulta os exemplos sugeridos em https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=9091#p11836.
+ 
+Ir para...
+=============
+
+
+

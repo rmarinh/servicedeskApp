@@ -1,0 +1,118 @@
+@startuml
+title Untitled
+
+
+
+title US 2002_Como RRH, pretendo especificar um novo Serviço
+
+
+actor RRH
+RRH->RegistarServicoUI: registarServico
+
+
+' ' #' #' #ALT Continuar Servico -> get all servicos incompletos
+
+' #Catalogo -> Escolha do catalogo onde o serviço vai estar disponivel
+RegistarServicoUI->  RRH: "RRH: Selecione Catalogo:"
+
+RegistarServicoUI->RegistarServicoController: create
+RegistarServicoController->ServicoBuilder: create
+
+' #Acao selecionar Catalgo
+RegistarServicoUI->RegistarServicoController: catalogos()
+RegistarServicoController -> ListCatalogoService: create()
+RegistarServicoController -> ListCatalogoService: allCatalogos()
+RegistarServicoController->RegistarServicoUI: show()
+RegistarServicoUI->RegistarServicoController: selectCatalogo()
+RegistarServicoController->ServicoBuilder: withCatalogo(catalogo)
+
+RegistarServicoUI->  RRH: "RRH: codigoUnico"
+RRH-> RegistarServicoUI: codigoUnico
+RegistarServicoUI->RegistarServicoController: informacaoBase
+RegistarServicoController->ServicoBuilder: withInformacaoBase
+
+
+
+' #Preencher Infromacao Base:
+RegistarServicoUI->  RRH: "RRH: codigoUnico, titulo, descricaoBreve, descricaoCompleta, icone"
+RRH-> RegistarServicoUI: codigoUnico, titulo, descricaoBreve, descricaoCompleta, icone
+RegistarServicoUI->RegistarServicoController: informacaoBase
+RegistarServicoController->ServicoBuilder: setInformacaoBase(codigoUnico, titulo, descricaoBreve, descricaoCompleta, icone)
+
+
+' #Palavras Chave
+RegistarServicoController->RegistarServicoUI: addPalavrasChave
+loop
+RegistarServicoUI->  RRH: "RRH: Adicionar Palavras Chave"
+RRH-> RegistarServicoUI: palavrachave
+RegistarServicoUI->RegistarServicoController: addPalavraChave(palavrachave)
+RegistarServicoController->ServicoBuilder: addPalavraChave(palavrachave)
+ end loop
+
+
+' #Definir Formulario
+RegistarServicoUI->  RRH: "RRH: identificadorFormulario, nomeFormulario"
+RRH-> RegistarServicoUI: identificadorFormulario, nomeFormulario
+RegistarServicoUI->RegistarServicoController: addFormulario(identificadorFormulario, nomeFormulario)
+RegistarServicoController->ServicoBuilder: addFormulario(identificadorFormulario, nomeFormulario)
+ServicoBuilder->FormularioBuilder: withidentificiador(identificadorFormulario)
+ServicoBuilder->FormularioBuilder: withNome(nomeFormulario)
+' #Atributos Formulario
+loop
+RegistarServicoUI->  RRH: "RRH: nomeAtributo, tituloAtributo, descricaoAtributo, tipoDadosAtributo, expRegularAtributo"
+RRH-> RegistarServicoUI: nomeAtributo, tituloAtributo, descricaoAtributo, tipoDadosAtributo, expRegularAtributo
+RegistarServicoUI->RegistarServicoController: (palavrachave)
+RegistarServicoController->ServicoBuilder: addPalavraChave(palavrachave)
+ServicoBuilder->FormularioBuilder: withidentificiador(identificadorFormulario)
+end loop
+
+' #Script Validacao Formulario
+RegistarServicoUI->  RRH: "RRH: scriptValidacaoFormulario"
+RRH->RegistarServicoUI: scriptValidacaoFormulario
+
+
+' #Construir novo servico
+RegistarServicoUI->RegistarServicoController: registarServico(catalogo, codigoUnico, titulo, descricaoBreve, descricaoCompleta, icone, palavrasChave)
+RegistarServicoController->ServicoBuilder: createServico =  create (catalogo, codigoUnico, titulo, descricaoBreve, descricaoCompleta, icone, palavrasChave)
+ServicoBuilder->Servico: create (catalogo, codigoUnico, titulo, descricaoBreve, descricaoCompleta, icone, palavrasChave)
+Servico-> ServicoBuilder:servico
+ServicoBuilder-> RegistarServicoController: servico
+RegistarServicoController -> PersistenceContex: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->ServicoRepository: create
+RegistarServicoController->ServicoRepository: save (servico)
+
+
+' #
+
+' #Info base:
+' #codigo, titulo, descricaoBreve, descricaoCompleta, icone, palavrasChave,
+' #catalogo
+
+RegistarServicoController -> Servico: newServico = create(codigo, titulo, descricaoBreve, descricaoCompleta, icone, palavrasChave, catalogo)
+
+
+
+
+' #Configuracao Formulario Solicitacao do Servico || Formulario Atividade Manual:
+' #    identificador, nome, lista de atributos (-> Solicitada ao colaborador), ScriptValidacao
+' #
+' #Configuracao Atributo:
+' #   nome da variavel , etiqueta de aprensentaçao (label), descriçao de ajuda, tipo de dados(numerico, texto), ExpressaoRegular
+
+' #Especficar Atividades:
+' #Atividade Aprovacao: Necessária ou não
+' # -> Atribuida ao responsavel do Colaborador que solicita o serviço
+
+' #Atividade Resolucao
+' # tipo manual ou automatico ?
+' # -> Caso tipo manual -> Configuracao Formulario Atividade Manual
+' # -> Caso tipo Automatica -> Definir Linguagem de Script (Pela equipa)  e definir Script
+
+' # Especificaçao Completa? ->  Serviço Disponivel
+' # Especificacao Incompleta -> Serviço Draft
+
+
+' #acronimo
+
+@enduml

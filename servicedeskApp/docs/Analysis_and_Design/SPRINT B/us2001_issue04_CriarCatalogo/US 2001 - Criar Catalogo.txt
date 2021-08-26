@@ -1,0 +1,45 @@
+title US 2001 Como GSH, eu pretendo criar um novo catálogo de serviços.
+
+actor GSH
+GSH->CriarCatalogoUI: newCatalogo
+CriarCatalogoUI->CriarCatalogoController: create
+CriarCatalogoController->PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->CatalogoRepository: create
+
+# Colaborador responsável pela gestão do catalogo
+GSH->CriarCatalogoUI: addGestor()
+CriarCatalogoUI->CriarCatalogoController: addGestor()
+CriarCatalogoController->GestoresCatalogo«List»: create()
+CriarCatalogoController->ListColaboradoresService: create()
+CriarCatalogoController->ListColaboradoresService: allColaboradores()
+CriarCatalogoController-->CriarCatalogoUI: allColaboradores
+CriarCatalogoUI->GSH: show()
+loop: adicionar responsável pela sua gestão
+GSH->CriarCatalogoUI: select()
+CriarCatalogoUI->CriarCatalogoController: addGestorCatalogo(Colaborador)
+CriarCatalogoController->GestoresCatalogo«List»: addGestorCatalogo(Colaborador)
+end
+
+# Especificar os niveis de criticidade do catalogo
+GSH->CriarCatalogoUI: addNiveisCriticidade()
+CriarCatalogoUI->CriarCatalogoController: addCriterios()
+CriarCatalogoController->CriteriosAcessoCatalogo«List»: create()
+CriarCatalogoController->ListEquipaService: create()
+CriarCatalogoController->ListEquipaService: allEquipas()
+CriarCatalogoController-->CriarCatalogoUI:
+CriarCatalogoUI->GSH: show()
+loop: adicionar equipa ao acesso ao catalogo
+GSH->CriarCatalogoUI: select()
+CriarCatalogoUI->CriarCatalogoController: addCriterios(equipa)
+CriarCatalogoController->CriteriosAcessoCatalogo«List»: add(equipa)
+end
+
+#Criar Catalogo
+GSH->CriarCatalogoUI: criarServico(titulo, descicaoBreve, descicaoCompleta, ícone)
+CriarCatalogoUI->CriarCatalogoController: criarCatalogo(titulo, descicaoBreve, descicaoCompleta, ícone)
+CriarCatalogoController->ServicoDisponibilizados«List»: create()
+CriarCatalogoController -> Catalogo: newCatalogo = create(titulo, descicaoBreve, descicaoCompleta, ícone, ListaGestores, ListaCriterios)
+CriarCatalogoController->CatalogoRepository: save(newCatalogo)
+CatalogoRepository --> CriarCatalogoController: identificador
+CriarCatalogoController --> CriarCatalogoUI: identificador

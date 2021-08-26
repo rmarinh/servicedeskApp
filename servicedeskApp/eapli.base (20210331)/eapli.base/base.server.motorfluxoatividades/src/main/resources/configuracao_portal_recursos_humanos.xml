@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<server>
+    <ip>127.0.0.1</ip>
+    <port>443</port>
+    <webroot>portalrh/www</webroot>
+    <secure>true</secure>
+</server>

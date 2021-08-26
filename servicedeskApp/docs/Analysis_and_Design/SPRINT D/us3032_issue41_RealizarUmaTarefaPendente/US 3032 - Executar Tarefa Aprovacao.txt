@@ -1,0 +1,27 @@
+title SPRINT D - 3023 - Como utilizador, eu pretendo realizar uma tarefa que tenho como pendente.
+
+actor Colaborador
+Colaborador->AprovarPedidoUI: new
+AprovarPedidoUI->RegistarPedidoController: create
+RegistarPedidoController->PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->PedidoRepository: create
+
+# Definir Pedido a aprovar
+Colaborador->AprovarPedidoUI: allPedidosPorAprovarPorColaborador()
+AprovarPedidoUI->RegistarPedidoController: allPedidosPorAprovarPorColaborador()
+RegistarPedidoController->ListPedidoController«List»: create()
+RegistarPedidoController->ListPedidoController: allPedidosPorAprovarPorColaborador()
+RegistarPedidoController-->AprovarPedidoUI: allPedidosPendentesAprovacao
+AprovarPedidoUI->Colaborador: show()
+Colaborador->AprovarPedidoUI: select(pedido)
+
+# Aceitar ou reprovar um pedido
+AprovarPedidoUI->Colaborador: aprovar ou recusar pedido
+Colaborador->AprovarPedidoUI: aprovarRecusarPedido(boolean)
+
+# Aprovar Recusar e Avancar o Pedido no seu status
+Colaborador->AprovarPedidoUI: aprovarRecusarPedido(pedidoEscolhido)
+AprovarPedidoUI->RegistarPedidoController: aprovarPedido(pedidoEscolhido)
+RegistarPedidoController->Pedido:aprovarPedido(colaborador)
+RegistarPedidoController->PedidoRepository:save(pedido);

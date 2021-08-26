@@ -1,0 +1,37 @@
+title US 3001_Consultar/Pesquisar catálogos de serviços e respetivos serviços
+
+actor Utilizador
+Utilizador->ConsultarCatalogosUI: Consultar catálogos [click]
+ConsultarCatalogosUI->ConsultarCatalogosController: getCatalogos(utilizadorID)
+note right of ConsultarCatalogosController: FALTA: 1. procurar a equipa em que o utilizador pertence // 2. devolver a lista de catalogos associados // 3.  Especificação incompleta (RIu)
+
+
+
+
+ConsultarCatalogosController-->ConsultarCatalogosUI: show all
+ConsultarCatalogosUI-->Utilizador: show all
+OPT pesquisa
+Utilizador->ConsultarCatalogosUI: Pesquisar catalogos [click]
+ConsultarCatalogosUI-->Utilizador: pedido de criterios de selecao
+Utilizador->ConsultarCatalogosUI: inserir titulo 
+note over ConsultarCatalogosUI: Outros critérios?
+ConsultarCatalogosUI->ConsultarCatalogosController: findCatalogo(titulo)
+note right of ConsultarCatalogosController: FALTA: buscar a lista de catalogos
+
+ConsultarCatalogosController-->ConsultarCatalogosUI: show
+ConsultarCatalogosUI-->Utilizador: mostra catalogo(s)
+
+
+
+Utilizador->ConsultarCatalogosUI: Selecionar catálogo
+ConsultarCatalogosUI-> ConsultarCatalogosController: showServicos(catalogoID)
+note right of ConsultarCatalogosController: QUESTAO: vou buscar onde os serviços? em CRIAR CATALOGO tem ServicosDisponibilizador LIST...
+
+
+ConsultarCatalogosController-->ConsultarCatalogosUI: show
+ConsultarCatalogosUI-->Utilizador: mostra os servicos do catalogo
+
+
+
+
+

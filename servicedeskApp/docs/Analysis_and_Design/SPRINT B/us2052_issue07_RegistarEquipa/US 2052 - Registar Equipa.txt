@@ -1,0 +1,40 @@
+title US 2052_Como RRH, pretendo criar uma nova Equipa
+
+
+actor RRH
+RRH->RegistarEquipaUI: newEquipa
+RegistarEquipaUI->RegistarEquipaController: create
+RegistarEquipaController -> PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->EquipaRepository: create
+
+#tipo de equipa
+
+RegistarEquipaController -> ListTiposEquipaService: create()
+RegistarEquipaController -> ListTiposEquipaService: allTipoEquipa()
+RegistarEquipaController --> RegistarEquipaUI:
+RegistarEquipaUI->RRH: show()
+RegistarEquipaController-->RegistarEquipaUI:
+
+#Colaboradores Responsaveis 
+
+RRH->RegistarEquipaUI: addResponsavel()
+RegistarEquipaUI->RegistarEquipaController: addResponsavel()
+RegistarEquipaController->ResponsaveisEquipa«list»: create()
+RegistarEquipaController -> ListColaboradoresService: create()
+RegistarEquipaController -> ListColaboradoresService: allColaboradores()
+RegistarEquipaController-->RegistarEquipaUI:
+RegistarEquipaUI->RRH: show()
+loop: adicionar responsável
+RRH->RegistarEquipaUI: select()
+RegistarEquipaUI->RegistarEquipaController: addResponsavel(Colaborador)
+RegistarEquipaController->ResponsaveisEquipa«list»: add(Colaborador)
+end
+
+
+
+#Registar Equipa
+
+RegistarEquipaUI->RegistarEquipaController: registerEquipa(Equipa, codigo, acronimo, designacao, listaColaboradoresResponsaveis, listaColaboradores)
+RegistarEquipaController -> Equipa: newEquipa = create(tipoEquipa, codigo, acronimo, designacao, listaColaboradoresResponsaveis, listaColaboradores)
+RegistarEquipaController->EquipaRepository: save(newEquipa)

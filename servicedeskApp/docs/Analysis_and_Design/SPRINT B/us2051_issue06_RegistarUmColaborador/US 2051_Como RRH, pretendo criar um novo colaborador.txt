@@ -1,0 +1,31 @@
+title US 2051_Como RRH, pretendo criar um novo colaborador
+
+
+actor RRH
+RRH->AddColaboradorUI: addColaborador
+AddColaboradorUI->AddColaboradorController: create
+AddColaboradorUI-->RRH: pedidoInformacao
+RRH-->AddColaboradorUI: numeroMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, email, telefone, funcao
+
+opt responsavel
+    RRH->AddColaboradorUI: showAllColaboradores
+    AddColaboradorUI->AddColaboradorController: showAllColaboradores
+    AddColaboradorController->ListColaboradorService: showAllColaboradores()
+    AddColaboradorUI->AddColaboradorUI: doShow()
+    RRH--> AddColaboradorUI: colaboradorReponsavel
+end
+
+AddColaboradorUI-> AddColaboradorController:addColaborador(numeroMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, email, telefone, funcao, colaboradorReponsavel)
+AddColaboradorController->ColaboradorBuilder: createColaborador()
+ColaboradorBuilder->Colaborador: create(numeroMecanografico, nomeCurto, nomeCompleto, dataNascimento, localResidencia, email, telefone, funcao, colaboradorReponsavel)
+Colaborador->ColaboradorBuilder: colaborador
+ColaboradorBuilder->AddColaboradorController: colaborador
+AddColaboradorController->PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+PersistenceContext->AddColaboradorController: factory
+AddColaboradorController->RepositoryFactory:colaborador()
+RepositoryFactory->ColaboradorRepository: create
+RepositoryFactory->AddColaboradorController:colaboradorRepository
+AddColaboradorController->ColaboradorRepository: save(colaborador)
+AddColaboradorController->AddColaboradorUI: colaborador
+AddColaboradorUI-->RRH: apresentarInfoColaborador

@@ -1,0 +1,8 @@
+title US 3001_Consultar catálogos de serviços e respetivos serviços
+
+actor Utilizador
+Utilizador->ListCatalogosUI: Consultar catálogos [click]
+ListCatalogosUI->ListCatalogoController: activeCatalogos()
+ListCatalogoController->CatalogRepository:findAll()
+CatalogRepository-->ListCatalogosUI: show()
+ListCatalogosUI-->Utilizador: do show()

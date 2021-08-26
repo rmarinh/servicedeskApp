@@ -1,0 +1,21 @@
+title SD - inicializado (bootstrap) de atividade Automatica
+
+participant ":BootStrapapp" as u
+participant ":AtividadesAutomaticasBootstrapper" as cont
+participant ":PersistenceContext" as pc
+participant ":RepositoryFactory" as fact
+participant ":AtividadeRepository" as repo
+participant "atividade:AtividadeAutomatica" as a
+
+loop [for all AtividadeAutomatica]
+u->u:registerAtividade(dados relativos a atividade)
+u-->*cont:create
+cont->+pc:repositories()
+pc-->fact: create
+pc-->-cont:
+cont->fact: Atividade()
+fact-->*repo:create()
+u->cont:register(data)
+cont-->*a:create
+cont->repo:save(atividade)
+end

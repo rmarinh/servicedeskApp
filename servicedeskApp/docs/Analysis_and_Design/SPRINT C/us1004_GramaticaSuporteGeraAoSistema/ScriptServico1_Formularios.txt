@@ -1,0 +1,44 @@
+///////Script Servico 1//////////
+Type:=FORMULARIOTYPE
+
+//Serviço 1 
+  //Formulario Pedido   
+    //O período é definido por duas datas em que a data fim é igual ou superior à data inicio.
+        campo1 =  "data inicio";
+        campo2 = "data fim";
+        assert(campo2 >= campo1);
+    
+    //Campo preenchiido com Expressao Regular
+        campo = "rua";
+        Regex = "[A-Za-z ]*";
+        assert(campo match Regex);
+    
+    //O tipo de ausência assume apenas 3 valores possíveis: Férias, Justificada, Não Justificada.
+        campo = "tipo de ausência";
+        Regex = "[Férias|Justificada|Não Justificada]";
+        assert(campo match Regex);
+    
+     //Caso o tipo de ausência seja "Justificada" é obrigatório preencher o campo "justificação".
+         campo1 = "tipo de ausência";
+         campo2 = "justificação";
+         Regex = "[A-Za-Z0-9 ]";
+         if (campo==Justificada) do
+            assert(campo2 match  Regex);
+         end
+
+
+  //Formulário Aprovação:
+        //Campo preenchiido com Expressao Regular A fundamentação é obrigatória
+        campo = "fundamentação";
+        Regex = "[A-Za-z ]*";
+        assert(campo match Regex);
+
+   //Formulario Execucao
+        campo1 = "férias totais";
+        campo2 = "dias já gozados";
+        campo3 = "dias a gozar";
+        assert(campo1 == (campo2+campo3));
+
+///////////////////
+//////////////////
+    

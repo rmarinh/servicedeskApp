@@ -1,0 +1,70 @@
+Regra1:
+	Se CampoA tem o valor "X" então (i) 
+		o CampoB tem que estar preenchido e ter um mínimo de 10 caracteres
+		e (ii) os valores admissíveis do CampoC variam entre 0 e 10 (inteiros).  
+
+Regra 2
+	Caso o valor do CampoA seja "Y" o 
+		campo B pode não ser preenchido 
+		mas os valores admissíveis do CampoC variam entre 0 e 20 desde que sejam pares.
+
+Regra 4
+	Caso o valor do Campo A seja diferente de "X", "Y" e "Z" 
+		o valor do campoD tem obrigatoriamente que ser maior do que o valor do CampoE 
+		e caso o produto dos campo D e E seja superior a K então 
+		o campo K tem que ser preenchido (apenas e só neste cenário).
+
+
+Regra 1:
+	if CampoA == X then
+
+		CampoB length(>10)
+		CampoC between (0,10)
+
+Regra 2:
+	If CampoA == Y then 
+		CampoB == null
+		CampoC beween(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+
+Regra 3: (Inventada)
+	If CampoA == Z then 
+		CampoB length(<10)
+		CampoC beween(1, 3, 5, 7, 9, 11, 13, 15, 17, 19)
+
+
+Regra 4
+	CAMPO A DEFAULT (not equals 'X', 'Y', 'Z'):
+	then 
+	CampoD > CampoE
+	& if (CampoD * CampoE) > ValueK then 
+		CampoK length > 0
+
+CAMPOA: (Escolha )
+	X -> Go to section 1 
+	Y -> Go to Section 2
+	Z -> Go to section 3
+	OUTROS -> Go to Section 4
+
+
+
+=============
+ aquando da especificação de um serviço é necessário indicar os dados/informação a recolher aquando da solicitação desse serviço por um utilizador. Por exemplo :
+ 	serviço “Alteração de NIB”:
+ 	 é necessário o utilizador: (i) indicar o respetivo NIB 
+ 	 e (ii) adicionar um ficheiro comprovativo em como esse NIB é seu. 
+
+ serviço “Reportar anomalia em equipamento” pode ser requerido: 
+ 	(i) o tipo de anomalia; 
+ 	(ii) o tipo de equipamento; 
+ 	(iii) o n2úmero de imobilizado do equipamento; 
+ 	(iv) uma descrição da anomalia; e
+ 	 (v) opcionalmente anexos que evidenciem a anomalia em causa. 
+
+
+ 	 Relativamente a estas informações é
+importante que o sistema tenha a capacidade de garantir o preenchimento de todos os dados
+obrigatórios, a maior correção/validade possível de cada informação, por exemplo, através da
+limitação dos valores admissíveis (e.g. limite inferior e superior, enumerado de valores) para essa
+informação e, por fim, do conjunto de todas as informações fornecidas. 
+Neste aspeto, salienta-se que a obrigatoriedade dos campos e dos valores admissíveis para cada campo pode variar em função dos
+valores de outros campos (e.g., se o campo A tem o valor “outra” então o campo B torna-se de preenchimento obrigatório, caso contrário não deve ser/estar preenchido).

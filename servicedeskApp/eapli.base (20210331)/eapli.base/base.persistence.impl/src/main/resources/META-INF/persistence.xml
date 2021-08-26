@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence">
+    <persistence-unit name="eapli.base">
+        <!--
+      <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+      -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>eapli.framework.infrastructure.authz.domain.model.SystemUser</class>
+        <class>eapli.framework.infrastructure.authz.domain.model.Role</class>
+        <class>eapli.framework.infrastructure.authz.domain.model.RoleSet</class>
+        <class>eapli.framework.infrastructure.authz.domain.model.RoleAssignment</class>
+
+        <!-- Servico -->
+        <class>eapli.base.servicomanagement.domain.servico.Servico</class>
+        <class>eapli.base.servicomanagement.domain.servico.FluxoAprovacao</class>
+        <class>eapli.base.servicomanagement.domain.servico.FluxoResolucao</class>
+
+        <!-- Colaborador -->
+        <class>eapli.base.colaboradormanagement.domain.Colaborador</class>
+        <class>eapli.base.colaboradormanagement.domain.SignupRequest</class>
+
+        <!-- Niveis de criticidade -->
+        <class>eapli.base.slaservicemanagement.domain.NiveisCriticidade</class>
+        <class>eapli.base.slaservicemanagement.domain.Cor</class>
+        <class>eapli.base.slaservicemanagement.domain.EscalaNumerica</class>
+        <class>eapli.base.slaservicemanagement.domain.Etiqueta</class>
+        <class>eapli.base.slaservicemanagement.domain.TempoMedioAprovacao</class>
+        <class>eapli.base.slaservicemanagement.domain.TempoMaximoAprovacao</class>
+
+        <!-- Catalogo -->
+        <class>eapli.base.catalogoservicemanagement.domain.Catalogo</class>
+        <class>eapli.base.catalogoservicemanagement.domain.DescricaoBreve</class>
+        <class>eapli.base.catalogoservicemanagement.domain.DescricaoCompleta</class>
+        <class>eapli.base.catalogoservicemanagement.domain.Titulo</class>
+
+        <!-- Equipa -->
+        <class>eapli.base.teammanagement.domain.EquipaType</class>
+        <class>eapli.base.teammanagement.domain.Equipa</class>
+        <class>eapli.base.teammanagement.domain.Designacao</class>
+        <class>eapli.base.teammanagement.domain.Cor</class>
+        <class>eapli.base.teammanagement.domain.Acronimo</class>
+
+        <!-- Atividades -->
+        <class>eapli.base.atividademanagement.domain.Atividade</class>
+        <class>eapli.base.atividademanagement.domain.AtividadeManual</class>
+        <class>eapli.base.atividademanagement.domain.AtividadeAutomatica</class>
+
+        <!-- Pedidos -->
+        <class>eapli.base.pedidomanagement.domain.PedidoRascunho</class>
+
+        <!-- Pedidos -->
+        <class>eapli.base.pedidomanagement.domain.Pedido</class>
+        <class>eapli.base.pedidomanagement.domain.AbstractPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.EmAprovacaoPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.AprovadoPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.ConcluidoPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.EmExecucaoPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.RejeitarPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.SubmetidoPedidoEvent</class>
+        <class>eapli.base.pedidomanagement.domain.AvaliacaoPedido</class>
+
+        <properties>
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/base"/>-->
+
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:..\db\base;MV_STORE=FALSE;AUTO_SERVER=true;"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value="eapli"/>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <!-- <property name="eclipselink.logging.level" value="FINE"/> -->
+            <!-- <property name = "hibernate.show_sql" value = "true" /> -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+        </properties>
+    </persistence-unit>
+</persistence>

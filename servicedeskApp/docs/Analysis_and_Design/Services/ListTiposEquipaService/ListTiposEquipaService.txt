@@ -1,0 +1,17 @@
+title ListTiposEquipaService
+
+
+ListEquipaTypeUI->ListEquipaTypeUI: doShow()
+ListEquipaTypeUI->ListEquipaTypeController: listTiposEquipa()
+ListEquipaTypeController->ListEquipaTypeService: allTiposEquipa()
+ListEquipaTypeService->EquipaTypeRepository: findAll()
+ListEquipaTypeController->ListEquipaTypeService: Iterable<EquipaType>
+
+loop foreach EquipaType
+ListEquipaTypeService->EquipaType: toDTO()
+EquipaType->EquipaTypeDTO: create
+EquipaType->ListEquipaTypeService: EquipaTypeDTO
+end
+
+ListEquipaTypeService->ListEquipaTypeController: Iterable<EquipaTypeDTO>
+ListEquipaTypeController->ListEquipaTypeUI: Iterable<EquipaTypeDTO>

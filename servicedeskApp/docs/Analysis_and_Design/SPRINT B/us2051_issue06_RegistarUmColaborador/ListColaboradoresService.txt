@@ -1,0 +1,17 @@
+title ListColaboradoresService
+
+Colaborador->ListColaboradoresUI: show()
+ListColaboradoresUI->ListColaboradoresUI: doShow()
+ListColaboradoresUI->ListColaboradoresController: listcolaboradores()
+ListColaboradoresController->PersistenceContext: repositories()
+PersistenceContext->AppSettings: instance()
+PersistenceContext->AppSettings: getRepositoryFactory()
+AppSettings-->RepositoryFactory: create
+RepositoryFactory-->AppSettings:
+AppSettings-->ListColaboradoresController:
+ListColaboradoresController->RepositoryFactory:colaboradores()
+RepositoryFactory-->ColaboradorRepository: create()
+ListColaboradoresController->ColaboradorRepository: list=allColaboradores()
+ColaboradorRepository->ListColaboradoresController:
+ListColaboradoresController-->ListColaboradoresUI: list
+ListColaboradoresUI-->Colaborador:

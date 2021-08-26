@@ -1,0 +1,195 @@
+Formularios Cenarios:
+
+
+	Formulário Pedido:
+		• Dados: Período de ausência (data inicio e fim) + Tipo Ausência + Justificação
+
+		• Validação 1: O período é definido por duas datas em que a data fim é igual ou superior à data inicio.
+		• Validação 2: O tipo de ausência assume apenas 3 valores possíveis: Férias, Justificada, Não Justificada.
+		• Validação 3: Caso o tipo de ausência seja "Justificada" é obrigatório preencher o campo "justificação"
+
+================
+		Período de ausência data inicio; 
+		Período de ausência data fim;
+	 	Tipo Ausência
+		Justificação
+
+
+		• Validação 1: 
+			RULE 1:  "Período de ausência data inicio" LESSTHAN "Período de ausência data fim"
+
+		• Validação 2:
+					"tipo de ausência"	MATCHANY ["Férias", "Justificada", "Não Justificada"]
+
+		• Validação 3: Caso o tipo de ausência seja "Justificada" é obrigatório preencher o campo "justificação"
+			IF "tipo de ausência" EQUALS "Justificada" 
+				"justificação" MANDATORY
+
+=================
+
+
+
+	Formulário Aprovação:
+		• Quem: pelo superior hierárquico do colaborador
+		• Dados: Para além da decisão apenas é necessário um texto fundamentando a decisão.
+
+		• Validação: A fundamentação é obrigatória.
+
+
+	Formulário Realização:
+		• Quem: um colaborador da equipa da secção de Recursos Humanos
+		• Dados: A título informativo para o colaborador deve ser indicado a seguinte informação: Dias de férias já
+		gozados no ano, Dias de férias gozados do período solicitado, Dias de férias totais, Dias de falta justificadas já
+		ocorridas no ano, Dias de faltas justificadas do período solicitado, Dias de faltas justificadas totais, Dias de
+		falta não justificadas já ocorridas no ano, Dias de faltas não justificadas do período solicitado, Dias de faltas
+		não justificadas totais e uma comentário.
+
+		• Validação 1: Com exceção do comentário, todos os dados são obrigatórios.
+		• Validação 2: Os dias totais (e.g. férias totais) devem corresponder à soma dos dias já gozados/ocorridos e
+		dos dias a gozar/ocorrer no período solicitado.
+
+		
+
+
+	Formulário Pedido:
+		• Dados: Código Interno Cliente, Nome, Tipo de Desconto, Recorrência, Percentagem de Desconto, Valor de
+		Desconto, Identificação da Fatura, Data Limite, Fundamentação do pedido
+
+		• Validação 1: Código cliente obedece a uma expressão regular (3 consoantes + 3 dígitos)
+		• Validação 2: Código cliente, nome, tipo de desconto, recorrência e fundamentação são obrigatórios
+		• Validação 3: Apenas um dos campos entre percentagem de desconto e valor de desconto tem
+		obrigatoriamente que estar preenchido (valor superior a zero). O outro campo deve ficar a zero.
+		• Validação 4: A recorrência apenas assume 2 valores possíveis: Única ou Até Data Limite. Em caso de ser
+		única é obrigatório identificar a fatura em causa. Caso contrário é obrigatório indicar a data limite de
+		aplicação do desconto.
+
+================================			
+				Código Interno cliente		
+				Nome
+				Tipo de Desconto
+				Recorrência
+				Percentagem de Desconto
+				Valor de Desconto
+				Identificação da Fatura
+				Data Limite
+				Fundamentação do pedido
+
+
+				• Validação 1: 
+						"Código cliente"  MATCH "expressão regular (3 consoantes + 3 dígitos)"
+
+				• Validação 2: 
+						RULE1
+						"Código cliente","nome", "tipo de desconto", "recorrência", "fundamentação"  MANDATORY
+
+							FIELD OP (ARGS) 
+
+							? TRUE  : FALSE	
+
+
+						<VAlidacoes>
+							<Validacao> 
+								<Rule>
+									<Campo>Código cliente</Campo>
+									<Operacao>MATCH</Operacao>
+									<Args>
+										<Arg>[ABCD]+[0-9]+</Arg>
+									</Args>
+								</Rule>
+							</Validacao>
+							<Validacao>
+								<Rule>
+									<Campo>Código cliente</Campo>
+									<Operacao>MANDATORY</Operacao>
+									</Args>
+								</Rule>
+								<Rule>
+									<Campo>tipo de desconto</Campo>
+									<Operacao>MANDATORY</Operacao>
+									</Args>
+								</Rule>
+							</Validacao>
+							<Validacao>
+								<Rule>
+									<Campo>Percentagem de Desconto</Campo>
+									<Operacao>FILLED</Operacao>
+									</Args>
+									<TRUE>
+										<Rule>
+										<Campo>Valor de Desconto</Campo>
+										<Operacao>EQUALS</Operacao>
+										<Args>
+											<Arg>0</Arg>
+										</Args>
+										</Rule>
+									</TRUE>
+									<FALSE>
+										<Rule>
+										<Campo>Percentagem de Desconto</Campo>
+										<Operacao>EQUALS</Operacao>
+										<Args>
+											<Arg>0</Arg>
+										</Args>
+										</Rule>
+									</FALSE>
+								</Rule>
+							</Validacao>
+						<Validacoes>
+
+
+
+
+
+				• Validação 3: 
+						"Rule1"
+						IF "Percentagem de Desconto" FILLED
+							"Valor de Desconto"  EQUALS 0;
+
+						ELSE 
+							"Valor de Desconto" FILLED
+							
+
+
+				• Validação 4: 
+							 "Rule1:" 
+							 	"recorrência" MATCHANY : ["Única",  "Até Data Limite"]
+
+							 "RULE2:" 
+								 if "recorrência" EQUALS "Única" 
+								 	"Identificação da Fatura" MANDATORY
+								 ELSE 
+								 	"Data Limite" MANDATORY
+==========================								 	
+
+
+	Formulário Aprovação:
+		• Quem: pelo responsável pelo serviço
+
+		• Dados: Para além da decisão é necessário indicar: um texto fundamentando a decisão e confirmar a
+		percentagem ou valor de desconto atribuído e a data limite (caso faça sentido)
+
+		• Validação 1: A fundamentação é obrigatória.
+		• Validação 2: Apenas um dos campos entre percentagem de desconto e valor de desconto tem
+		obrigatoriamente que estar preenchido (valor superior a zero). O outro campo deve ficar a zero.
+
+
+	Formulário Pedido:
+		• Dados: Os correspondentes à estrutura de uma morada postal em Portugal
+
+		• Validação: Garantir que a informação introduzida é válida (e.g. Código postal com 4+3 digitos).
+
+
+	Formulário Realização:
+		• Quem: um colaborador da equipa da secção de Recursos Humanos
+
+		• Dados: Apenas um texto de observações.
+		• Validação: O texto de observações é obrigatório.
+
+
+	Formulário Pedido:
+		• Dados: Código do Produto, Quantidade pretendida, Tipo de Cliente
+
+		• Validação 1: Tipo de cliente aceita apenas 3 valores: Nacional, Europeu, Resto do Mundo
+		• Validação 2: Todos os dados são obrigatórios
+		• Validação 3: A quantidade só pode ter parte decimal significativa (diferente de zero) caso o código do
+		produto comece por "20" ou "21".

@@ -1,0 +1,40 @@
+
+1. validação de Formulário
+
+
+    .Se um atributo está preenchido ou não
+    .Atributos de preenchimento opcional
+    .Atributos de texto livre (não requer validação)
+    .Verificar se o valor de um atributo está em conformidade com uma determinada expressão regular
+    .Aplicar operações lógicas sobre os atributos em conformidade com o seu tipo de dados (numéricas vs. texto)
+    .Definir diferentes fluxos de validação com base nas operações lógicas realizadas sobre os valores dos atributos. Fluxos dependente das respostas
+    .Combinação de operações lógicas simples para formar operações lógicas mais complexas
+    .Devem ser geradas mensagens de erro de acordo com o contexto
+    .Outras situações que considerem relevantes
+
+
+- O resultado do script de validação de formulário de ser OK ou NotOK e no caso de ser NotOK deve incluir uma ou mais mensagens de erro correspondentes à não conformidade (léxica, sintática ou semântica).
+
+
+Estrutura do JSON
+
+
+
+
+
+2. Execução de uma tarefa automática
+
+. esta deve permitir alcançar os objetivos que constam no caderno de encargo:
+
+	• A consulta/obtenção de informação constante num determinado ficheiro local partindo de dados existentes no contexto do pedido em causa. Por
+	exemplo, com base no número de cliente indicado no pedido consultar um ficheiro XML com informação sobre clientes para obter o escalão de rapel que
+	lhe está associado. Outro exemplo, com base no identificador de um produto consultar um outro ficheiro para obter o preço base de comercialização desse
+	produto;
+	• A realização de cálculos matemáticos baseados em informação disponível tanto no contexto do pedido como em informação obtida durante a realização
+	do script (cf. ponto anterior). Por exemplo, com base numa quantidade indicada no pedido e no preço base do produto obtido através de uma consulta,
+	calcula-se um valor total (i.e., quantidade * preço) e a partir daí aplica-5 se um desconto de rapel (e.g., se valor total for menor que X não há direito a
+	desconto, entre X e Y aplica-se 2% desconto e superior a Y aplica-se 5% de desconto);
+	• O envio de emails cujo remetente(s), assunto e corpo da mensagem estão estaticamente definidos no script. Contudo, estes podem conter algumas
+	expressões que precisam de ser previamente computadas e substituídas pelo seu resultado de forma a que o email seja corretamente enviado. Por
+	exemplo, no corpo do email pode constar o texto “Valor Total: {{$vt}}€”, onde “{{$vt}}” representa uma expressão que precisa de ser computada e
+	substituída pelo seu resultado (e.g., “350.00”) de modo a que no corpo do email enviado conste “Valor Total: 350.00€”;

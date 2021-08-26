@@ -1,0 +1,21 @@
+title SD - inicializado (bootstrap) de alguns catálogo e serviços
+
+participant ":BootStrapapp" as u
+participant ":CatalogosBootstrapper" as cont
+participant ":PersistenceContext" as pc
+participant ":RepositoryFactory" as fact
+participant ":CatalogosRepository" as repo
+participant "catalogo:Catalogo" as a
+
+loop [for all Catalogo]
+u->u:registerCatalog(dados relativos a catalogo)
+u-->*cont:create
+cont->+pc:repositories()
+pc-->fact: create
+pc-->-cont:
+cont->fact: catalogos()
+fact-->*repo:create()
+u->cont:register(data)
+cont-->*a:create
+cont->repo:save(catalogo)
+end

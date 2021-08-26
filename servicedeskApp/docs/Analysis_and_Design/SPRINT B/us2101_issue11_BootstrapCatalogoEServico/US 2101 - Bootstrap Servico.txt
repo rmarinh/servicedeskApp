@@ -1,0 +1,21 @@
+title SD - inicializado (bootstrap) de alguns catálogo e serviços
+
+participant BootStrapapp as u
+participant ServicosBootstrapper as cont
+participant PersistenceContext as pc
+participant RepositoryFactory as fact
+participant ServicosRepository as repo
+participant servicosServicos as a
+
+loop [for all servicos]
+u-uregisterServico(dados relativos a servicos)
+u--contcreate
+cont-+pcrepositories()
+pc--fact create
+pc---cont
+cont-fact servicoss()
+fact--repocreate()
+u-contregister(data)
+cont--acreate
+cont-reposave(servicos)
+end

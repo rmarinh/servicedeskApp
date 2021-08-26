@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<motor_fluxo>
+    <!--
+     O tipo de motor de fluxo esta relacionado
+     com a forma que os pedidos manuais seram
+     distribuidos
+
+     Tipos:
+        automaticos
+        manual
+     -->
+    <tipo>automatico</tipo>
+
+    <!--
+    O algoritmo do motor de fluxo esta relacionado
+    com a forma como sera gerido os pedidos
+
+    Tipos de algoritmos validos:
+        FCFS
+        Alg1
+    -->
+    <algoritmo_colaborador>Alg1</algoritmo_colaborador>
+    <algoritmo_executor>Alg1</algoritmo_executor>
+</motor_fluxo>

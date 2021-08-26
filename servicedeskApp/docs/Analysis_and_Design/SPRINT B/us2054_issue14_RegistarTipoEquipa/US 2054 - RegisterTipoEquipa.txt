@@ -1,0 +1,16 @@
+title US 2054 - Register novo tipo de equipa
+
+
+actor RRH
+RRH->RegisterTipoEquipaUI: RegisterTipoEquipa
+RegisterTipoEquipaUI->RegisterTipoEquipaController: create
+RegisterTipoEquipaController->PersistenceContext: repositories()
+PersistenceContext->RepositoryFactory: create
+RepositoryFactory->TipoEquipaRepository: create
+PersistenceContext-->RegisterTipoEquipaController: tipoEquipaRepository
+RegisterTipoEquipaUI->RegisterTipoEquipaUI: doShow()
+RegisterTipoEquipaUI->RegisterTipoEquipaController: registerTipoEquipa(identificadorUnico,descricao, cor)
+RegisterTipoEquipaController->TipoEquipa: newTipoEquipa= create(identificadorUnico, descricao, cor)
+RegisterTipoEquipaController->TipoEquipaRepository:save(newTipoEquipa) 
+
+

@@ -1,0 +1,8 @@
+title US 3001_Pesquisar catálogos de serviços e respetivos serviços
+
+actor Utilizador
+Utilizador->FindCatalogosUI: Pesquisar catálogos
+FindCatalogosUI->ListCatalogoController: findByTitulo()
+ListCatalogoController->CatalogRepository:findByTitulo(titulo)
+CatalogRepository-->FindCatalogosUI: show()
+FindCatalogosUI-->Utilizador: do show()
